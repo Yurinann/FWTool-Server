@@ -1,4 +1,4 @@
-package me.yurinan.fwtool.server.utils;
+package me.yurinan.fwtool.server.universal.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

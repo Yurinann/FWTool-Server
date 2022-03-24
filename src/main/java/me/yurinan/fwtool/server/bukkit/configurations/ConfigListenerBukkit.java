@@ -1,6 +1,6 @@
-package me.yurinan.fwtool.server.configurations;
+package me.yurinan.fwtool.server.bukkit.configurations;
 
-import me.yurinan.fwtool.server.FWToolServer;
+import me.yurinan.fwtool.server.bukkit.FWToolBukkit;
 import org.bukkit.Bukkit;
 
 import java.nio.file.*;
@@ -15,16 +15,15 @@ import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
  * @since 2022/3/23 20:39
  */
 
-public class ConfigListener {
+public class ConfigListenerBukkit {
 
     private static long LAST_MOD = 0L;
     private static WatchService watchService;
     private static String filePath;
 
     public void watch() {
-
-        filePath = FileConfig.dataFolder.getAbsolutePath();
-        FWToolServer.log("&f监听路径: &8" + filePath);
+        filePath = FileConfigBukkit.getDataFolder().getAbsolutePath();
+        FWToolBukkit.log("&f监听路径: &8" + filePath);
 
         try {
             watchService = FileSystems.getDefault().newWatchService();
@@ -41,6 +40,7 @@ public class ConfigListener {
                 while (true) {
                     WatchKey key = watchService.take();
 
+                    // TODO: timestamps check duplicate reload
                     Thread.sleep(50);
 
                     for (WatchEvent<?> event : key.pollEvents()) {
@@ -50,15 +50,15 @@ public class ConfigListener {
                         fileNameSet.add(event.context() + "");
                     }
 
-                    long lastModified = FileConfig.configFile.lastModified();
+                    long lastModified = FileConfigBukkit.configFile.lastModified();
 
-                    for (String name : fileNameSet) {
-                        if (lastModified != LAST_MOD && FileConfig.configFile.length() > 0) {
-                            FileConfig.reloadConfig();
-                            FWToolServer.log("&3文件 &f" + filePath + "\\" + name + " &3已自动重载!");
-                            FWToolServer.log("&3检测并执行指令...");
-                            if (FileConfig.getConfig().contains("command") && !FileConfig.getConfig().getString("command").isEmpty() && !Objects.equals(FileConfig.getConfig().getString("command"), "")) {
-                                Bukkit.getScheduler().runTask(FWToolServer.instance, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfig.getConfig().getString("command")));
+                    for (String ignored : fileNameSet) {
+                        if (lastModified != LAST_MOD && FileConfigBukkit.configFile.length() > 0) {
+                            FileConfigBukkit.reloadConfig();
+                            FWToolBukkit.log("&3从工具箱成功接收指令, 正在执行...");
+                            if (FileConfigBukkit.getConfig().contains("command") && !FileConfigBukkit.getConfig().getString("command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig().getString("command"), "")) {
+                                Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig().getString("command")));
                             }
                             LAST_MOD = lastModified;
                         }

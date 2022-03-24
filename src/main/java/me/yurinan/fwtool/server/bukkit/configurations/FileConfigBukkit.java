@@ -1,6 +1,6 @@
-package me.yurinan.fwtool.server.configurations;
+package me.yurinan.fwtool.server.bukkit.configurations;
 
-import me.yurinan.fwtool.server.FWToolServer;
+import me.yurinan.fwtool.server.bukkit.FWToolBukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -16,16 +16,15 @@ import java.nio.charset.StandardCharsets;
  * @since 2022/3/23 20:40
  */
 
-public class FileConfig {
+public class FileConfigBukkit {
 
     private static FileConfiguration config = null;
 
-    public static final File dataFolder = FWToolServer.instance.getDataFolder();
-    public static final File configFile = new File(dataFolder + "/config.yml");
+    public static final File configFile = new File(getDataFolder() + "/config.yml");
 
     public static void initConfig() {
-        if (!dataFolder.exists()) {
-            dataFolder.mkdir();
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdir();
         }
         if (!configFile.exists()) {
             try {
@@ -47,7 +46,8 @@ public class FileConfig {
     public static void reloadConfig() {
         config = YamlConfiguration.loadConfiguration(configFile);
 
-        final InputStream defConfigStream = FWToolServer.instance.getResource("config.yml");
+        final InputStream defConfigStream = FWToolBukkit.instance.getResource("config.yml");
+
         if (defConfigStream == null) {
             return;
         }
@@ -57,10 +57,14 @@ public class FileConfig {
 
     public static void saveConfig() {
         try {
-            getConfig().save("config.yml");
+            getConfig().save(configFile);
         } catch (IOException e) {
-            FWToolServer.warn("Could not save config to" + configFile + e);
+            FWToolBukkit.warn("&3加载配置文件 &f" + configFile.getName() + " &3时发生错误!" + e);
         }
+    }
+
+    public static File getDataFolder() {
+        return FWToolBukkit.instance.getDataFolder();
     }
 
 }

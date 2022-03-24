@@ -1,4 +1,4 @@
-import me.yurinan.fwtool.server.utils.ColorParser;
+import me.yurinan.fwtool.server.universal.utils.ColorParser;
 import org.junit.jupiter.api.Test;
 
 /**
