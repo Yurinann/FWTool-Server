@@ -1,0 +1,6 @@
+name: FWTool-Server
+version: ${project.version}
+author: Yurinan
+
+main: me.yurinan.fwtool.server.FWToolServer
+api-version: 1.8
