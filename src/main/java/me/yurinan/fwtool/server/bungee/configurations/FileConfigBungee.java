@@ -22,11 +22,11 @@ public class FileConfigBungee {
 
     public static void initConfig() {
         if (!getDataFolder().exists()) {
-            FWToolBungee.log("&f插件数据文件夹不存在, 创建中...");
+            FWToolBungee.log("&8插件数据文件夹不存在, 创建中...");
             getDataFolder().mkdir();
         }
         if (!terminalDataFile.exists()) {
-            FWToolBungee.log("&f" + terminalDataFile.getName() + " &3不存在, 创建中...");
+            FWToolBungee.log("&8" + terminalDataFile.getName() + " 不存在, 创建中...");
             try {
                 terminalDataFile.createNewFile();
             } catch (IOException e) {

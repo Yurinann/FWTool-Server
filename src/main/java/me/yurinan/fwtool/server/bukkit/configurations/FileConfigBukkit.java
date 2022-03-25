@@ -24,11 +24,11 @@ public class FileConfigBukkit {
 
     public static void initConfig() {
         if (!getDataFolder().exists()) {
-            FWToolBukkit.log("&f插件数据文件夹不存在, 创建中...");
+            FWToolBukkit.log("&8插件数据文件夹不存在, 创建中...");
             getDataFolder().mkdir();
         }
         if (!terminalDataFile.exists()) {
-            FWToolBukkit.log("&f" + terminalDataFile.getName() + " &3不存在, 创建中...");
+            FWToolBukkit.log("&8" + terminalDataFile.getName() + " 文件不存在, 创建中...");
             try {
                 terminalDataFile.createNewFile();
             } catch (IOException e) {
