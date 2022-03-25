@@ -40,7 +40,7 @@ public class FileConfigBungee {
             if (!getConfig(terminalDataFile).contains("port")) {
                 getConfig(terminalDataFile).set("port", port);
             } else {
-                if (!(getConfig(terminalDataFile).getInt("port") == port)) {
+                if (getConfig(terminalDataFile).getInt("port") != port) {
                     getConfig(terminalDataFile).set("port", port);
                 }
             }
