@@ -20,15 +20,17 @@ public class FileConfigBukkit {
 
     private static FileConfiguration config = null;
 
-    public static final File configFile = new File(getDataFolder() + "/config.yml");
+    public static final File terminalDataFile = new File(getDataFolder() + "/terminal-data.yml");
 
     public static void initConfig() {
         if (!getDataFolder().exists()) {
+            FWToolBukkit.log("&f插件数据文件夹不存在, 创建中...");
             getDataFolder().mkdir();
         }
-        if (!configFile.exists()) {
+        if (!terminalDataFile.exists()) {
+            FWToolBukkit.log("&f" + terminalDataFile.getName() + " &3不存在, 创建中...");
             try {
-                configFile.createNewFile();
+                terminalDataFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -36,17 +38,17 @@ public class FileConfigBukkit {
     }
 
     @NotNull
-    public static FileConfiguration getConfig() {
+    public static FileConfiguration getConfig(File file) {
         if (config == null) {
-            reloadConfig();
+            reloadConfig(file);
         }
         return config;
     }
 
-    public static void reloadConfig() {
-        config = YamlConfiguration.loadConfiguration(configFile);
+    public static void reloadConfig(File file) {
+        config = YamlConfiguration.loadConfiguration(file);
 
-        final InputStream defConfigStream = FWToolBukkit.instance.getResource("config.yml");
+        final InputStream defConfigStream = FWToolBukkit.instance.getResource(file.getName());
 
         if (defConfigStream == null) {
             return;
@@ -55,11 +57,15 @@ public class FileConfigBukkit {
         config.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, StandardCharsets.UTF_8)));
     }
 
-    public static void saveConfig() {
-        try {
-            getConfig().save(configFile);
-        } catch (IOException e) {
-            FWToolBukkit.warn("&3加载配置文件 &f" + configFile.getName() + " &3时发生错误!" + e);
+    public static void saveConfig(File file) {
+        if (file.exists()) {
+            try {
+                getConfig(file).save(file);
+            } catch (IOException e) {
+                FWToolBukkit.warn("&3加载配置文件 &f" + file.getName() + " &3时发生错误!\n" + e);
+            }
+        } else {
+            FWToolBukkit.warn("&3正在保存的配置文件 &f" + file.getName() + " &3不存在!");
         }
     }
 

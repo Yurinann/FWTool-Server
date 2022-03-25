@@ -18,16 +18,17 @@ public class FileConfigBungee {
 
     private static Configuration config = null;
 
-    public static File configFile = new File(getDataFolder() + "/config.yml");
+    public static File terminalDataFile = new File(getDataFolder() + "/terminal-data.yml");
 
     public static void initConfig() {
         if (!getDataFolder().exists()) {
+            FWToolBungee.log("&f插件数据文件夹不存在, 创建中...");
             getDataFolder().mkdir();
         }
-        if (!configFile.exists()) {
+        if (!terminalDataFile.exists()) {
+            FWToolBungee.log("&f" + terminalDataFile.getName() + " &3不存在, 创建中...");
             try {
-                configFile.createNewFile();
-                ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+                terminalDataFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -36,26 +37,30 @@ public class FileConfigBungee {
 
 
     @NotNull
-    public static Configuration getConfig() {
+    public static Configuration getConfig(File file) {
         if (config == null) {
-            reloadConfig();
+            reloadConfig(file);
         }
         return config;
     }
 
-    public static void reloadConfig() {
+    public static void reloadConfig(File file) {
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
         } catch (IOException e) {
-            FWToolBungee.warn("&3加载配置文件 &f" + configFile.getName() + " &3时发生错误!" + e);
+            FWToolBungee.warn("&8加载配置文件 &f" + file.getName() + " &8时发生错误!\n" + e);
         }
     }
 
     public static void saveConfig(Configuration config, File file) {
-        try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
-        } catch (IOException e) {
-            FWToolBungee.warn("&3加载配置文件 &f" + configFile.getName() + " &3时发生错误!" + e);
+        if (file.exists()) {
+            try {
+                ConfigurationProvider.getProvider(YamlConfiguration.class).save(config, file);
+            } catch (IOException e) {
+                FWToolBungee.warn("&8加载配置文件 &f" + file.getName() + " &8时发生错误!\n" + e);
+            }
+        } else {
+            FWToolBungee.warn("&3正在保存的配置文件 &f" + file.getName() + " &3不存在!");
         }
     }
 

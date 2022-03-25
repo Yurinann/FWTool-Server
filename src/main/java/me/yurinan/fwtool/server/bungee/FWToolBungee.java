@@ -37,7 +37,7 @@ public class FWToolBungee extends Plugin {
         log("&f插件开始卸载...");
         long closeTime = System.currentTimeMillis();
         log("&f保存配置文件...");
-        FileConfigBungee.saveConfig(FileConfigBungee.getConfig(), FileConfigBungee.configFile);
+        FileConfigBungee.saveConfig(FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile), FileConfigBungee.terminalDataFile);
         log("&f取消任务...");
         ProxyServer.getInstance().getScheduler().cancel(getInstance());
         log("&3插件卸载完成, 共耗时 &b" + (System.currentTimeMillis() - closeTime) + " &3ms.");
@@ -48,11 +48,11 @@ public class FWToolBungee extends Plugin {
     }
 
     public static void warn(String message) {
-        log("&e警告! &r" + message);
+        log("&6警告! &r" + message);
     }
 
     public static void error(String message) {
-        log("&c错误! &r" + message);
+        log("&4错误! &r" + message);
     }
 
 }
