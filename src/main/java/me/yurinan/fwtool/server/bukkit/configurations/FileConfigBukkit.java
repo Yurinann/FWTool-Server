@@ -34,6 +34,18 @@ public class FileConfigBukkit {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            FWToolBukkit.log("&3数据写入中...");
+            int port = FWToolBukkit.instance.getServer().getPort();
+            if (!getConfig(terminalDataFile).contains("port")) {
+                getConfig(terminalDataFile).set("port", port);
+            } else {
+                if (!(getConfig(terminalDataFile).getInt("port") == port)) {
+                    getConfig(terminalDataFile).set("port", port);
+                }
+            }
+
+            saveConfig(terminalDataFile);
         }
     }
 

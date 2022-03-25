@@ -1,6 +1,7 @@
 package me.yurinan.fwtool.server.bungee.configurations;
 
 import me.yurinan.fwtool.server.bungee.FWToolBungee;
+import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
@@ -29,9 +30,22 @@ public class FileConfigBungee {
             FWToolBungee.log("&8" + terminalDataFile.getName() + " 不存在, 创建中...");
             try {
                 terminalDataFile.createNewFile();
+                reloadConfig(terminalDataFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            FWToolBungee.log("&3数据写入中...");
+            int port = ((ListenerInfo) FWToolBungee.getInstance().getProxy().getConfig().getListeners().toArray()[0]).getHost().getPort();
+            if (!getConfig(terminalDataFile).contains("port")) {
+                getConfig(terminalDataFile).set("port", port);
+            } else {
+                if (!(getConfig(terminalDataFile).getInt("port") == port)) {
+                    getConfig(terminalDataFile).set("port", port);
+                }
+            }
+
+            saveConfig(getConfig(terminalDataFile), terminalDataFile);
         }
     }
 
