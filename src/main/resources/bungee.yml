@@ -1,5 +1,6 @@
 name: FWTool-Server
 version: ${project.version}
 author: Yurinan
+description: "一个 Bukkit/Bungee 插件，主要为 FWTools 可视化服务器工具箱 提供交互功能。"
 
 main: me.yurinan.fwtool.server.bungee.FWToolBungee
