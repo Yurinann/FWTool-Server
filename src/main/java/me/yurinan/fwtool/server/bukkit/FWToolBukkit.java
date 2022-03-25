@@ -1,5 +1,6 @@
 package me.yurinan.fwtool.server.bukkit;
 
+import me.yurinan.fwtool.server.bukkit.bstats.Metrics;
 import me.yurinan.fwtool.server.universal.FWToolServer;
 import me.yurinan.fwtool.server.bukkit.configurations.ConfigListenerBukkit;
 import me.yurinan.fwtool.server.bukkit.configurations.FileConfigBukkit;
@@ -27,6 +28,9 @@ public class FWToolBukkit extends JavaPlugin {
         log("&f初始化监听程序...");
         ConfigListenerBukkit configListener = new ConfigListenerBukkit();
         configListener.watch();
+        log("&f注册 bStats 数据统计...");
+        int pluginId = 14735;
+        Metrics metrics = new Metrics(this, pluginId);
         log("&3插件加载完成, 共耗时 &b" + (System.currentTimeMillis() - startTime) + " &3ms.");
     }
 

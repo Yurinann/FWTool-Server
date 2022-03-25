@@ -1,8 +1,8 @@
 package me.yurinan.fwtool.server.bungee;
 
+import me.yurinan.fwtool.server.bungee.bstats.Metrics;
 import me.yurinan.fwtool.server.bungee.configurations.ConfigListenerBungee;
 import me.yurinan.fwtool.server.universal.FWToolServer;
-import me.yurinan.fwtool.server.bukkit.configurations.ConfigListenerBukkit;
 import me.yurinan.fwtool.server.bungee.configurations.FileConfigBungee;
 import me.yurinan.fwtool.server.universal.utils.ColorParser;
 import net.md_5.bungee.api.ProxyServer;
@@ -29,6 +29,9 @@ public class FWToolBungee extends Plugin {
         log("&f初始化监听程序...");
         ConfigListenerBungee configListener = new ConfigListenerBungee();
         configListener.watch();
+        log("&f注册 bStats 数据统计...");
+        int pluginId = 14736;
+        Metrics metrics = new Metrics(this, pluginId);
         log("&3插件加载完成, 共耗时 &b" + (System.currentTimeMillis() - startTime) + " &3ms.");
     }
 
