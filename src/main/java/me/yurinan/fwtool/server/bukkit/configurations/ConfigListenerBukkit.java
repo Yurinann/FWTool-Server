@@ -3,6 +3,7 @@ package me.yurinan.fwtool.server.bukkit.configurations;
 import me.yurinan.fwtool.server.bukkit.FWToolBukkit;
 import org.bukkit.Bukkit;
 
+import java.io.File;
 import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -50,15 +51,16 @@ public class ConfigListenerBukkit {
                         fileNameSet.add(event.context() + "");
                     }
 
-                    long lastModified = FileConfigBukkit.terminalDataFile.lastModified();
+                    File data = FileConfigBukkit.terminalDataFile;
+                    long lastModified = data.lastModified();
 
                     for (String ignored : fileNameSet) {
-                        if (lastModified != LAST_MOD && FileConfigBukkit.terminalDataFile.length() > 0) {
-                            FileConfigBukkit.reloadConfig(FileConfigBukkit.terminalDataFile);
+                        if (lastModified != LAST_MOD && data.length() > 0) {
+                            FileConfigBukkit.reloadConfig(data);
                             FWToolBukkit.log("&3从工具箱成功接收指令, 正在执行...");
-                            if (FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).contains("dispatch-command") && !FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command"), "")) {
+                            if (FileConfigBukkit.getConfig(data).contains("dispatch-command") && !FileConfigBukkit.getConfig(data).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig(data).getString("dispatch-command"), "")) {
                                 Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
-                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command")));
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig(data).getString("dispatch-command")));
                             }
                             LAST_MOD = lastModified;
                         }

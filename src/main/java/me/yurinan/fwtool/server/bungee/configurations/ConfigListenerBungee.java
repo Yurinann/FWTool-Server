@@ -3,6 +3,7 @@ package me.yurinan.fwtool.server.bungee.configurations;
 import me.yurinan.fwtool.server.bungee.FWToolBungee;
 import net.md_5.bungee.api.ProxyServer;
 
+import java.io.File;
 import java.nio.file.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -50,15 +51,16 @@ public class ConfigListenerBungee {
                         fileNameSet.add(event.context() + "");
                     }
 
-                    long lastModified = FileConfigBungee.terminalDataFile.lastModified();
+                    File data = FileConfigBungee.terminalDataFile;
+                    long lastModified = data.lastModified();
 
                     for (String ignored : fileNameSet) {
-                        if (lastModified != LAST_MOD && FileConfigBungee.terminalDataFile.length() > 0) {
-                            FileConfigBungee.reloadConfig(FileConfigBungee.terminalDataFile);
+                        if (lastModified != LAST_MOD && data.length() > 0) {
+                            FileConfigBungee.reloadConfig(data);
                             FWToolBungee.log("&3从工具箱成功接收指令, 正在执行...");
-                            if (FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).contains("dispatch-command") && !FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command"), "")) {
+                            if (FileConfigBungee.getConfig(data).contains("dispatch-command") && !FileConfigBungee.getConfig(data).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBungee.getConfig(data).getString("dispatch-command"), "")) {
                                 ProxyServer.getInstance().getScheduler().runAsync(FWToolBungee.getInstance(), () ->
-                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command")));
+                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), FileConfigBungee.getConfig(data).getString("dispatch-command")));
                             }
                             LAST_MOD = lastModified;
                         }
