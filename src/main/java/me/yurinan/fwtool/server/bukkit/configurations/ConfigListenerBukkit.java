@@ -2,6 +2,7 @@ package me.yurinan.fwtool.server.bukkit.configurations;
 
 import me.yurinan.fwtool.server.bukkit.FWToolBukkit;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.nio.file.*;
@@ -58,13 +59,31 @@ public class ConfigListenerBukkit {
                         if (lastModified != LAST_MOD && data.length() > 0) {
                             FileConfigBukkit.reloadConfig(data);
                             FWToolBukkit.log("&3从工具箱成功接收指令, 正在执行...");
-                            if (FileConfigBukkit.getConfig(data).contains("dispatch-command") && !FileConfigBukkit.getConfig(data).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig(data).getString("dispatch-command"), "")) {
-                                Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
-                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig(data).getString("dispatch-command")));
+                            if (FileConfigBukkit.getConfig(data).contains("dispatch-command")) {
+                                String command = FileConfigBukkit.getConfig(data).getString("dispatch-command");
+                                if (!command.isEmpty() && !Objects.equals(command, "")) {
+                                    if (command.startsWith("<console>")) {
+                                        String finalCommandConsole = FileConfigBukkit.getConfig(data).getString("dispatch-command");
+                                        Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
+                                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommandConsole.replaceFirst("<console>", "")));
+                                    } else if (command.startsWith("<player")) {
+                                        for (Player player : Bukkit.getOnlinePlayers()) {
+                                            String commandCheck = command.replaceFirst("<player:", "").split(">")[0];
+                                            if (player.getName().equalsIgnoreCase(commandCheck)) {
+                                                String finalCommandPlayer = FileConfigBukkit.getConfig(data).getString("dispatch-command");
+                                                Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
+                                                        Bukkit.dispatchCommand(Bukkit.getPlayer(player.getName()), finalCommandPlayer.replaceFirst("<player:" + player.getName() + ">", "")));
+                                            } else {
+                                                FWToolBukkit.log("&f指定的玩家不存在!");
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             LAST_MOD = lastModified;
                         }
                     }
+
 
                     boolean valid = key.reset();
                     fileNameSet.clear();

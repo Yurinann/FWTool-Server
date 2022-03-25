@@ -2,6 +2,7 @@ package me.yurinan.fwtool.server.bungee.configurations;
 
 import me.yurinan.fwtool.server.bungee.FWToolBungee;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.io.File;
 import java.nio.file.*;
@@ -58,9 +59,26 @@ public class ConfigListenerBungee {
                         if (lastModified != LAST_MOD && data.length() > 0) {
                             FileConfigBungee.reloadConfig(data);
                             FWToolBungee.log("&3从工具箱成功接收指令, 正在执行...");
-                            if (FileConfigBungee.getConfig(data).contains("dispatch-command") && !FileConfigBungee.getConfig(data).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBungee.getConfig(data).getString("dispatch-command"), "")) {
-                                ProxyServer.getInstance().getScheduler().runAsync(FWToolBungee.getInstance(), () ->
-                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), FileConfigBungee.getConfig(data).getString("dispatch-command")));
+                            if (FileConfigBungee.getConfig(data).contains("dispatch-command")) {
+                                String command = FileConfigBungee.getConfig(data).getString("dispatch-command");
+                                if (!command.isEmpty() && !Objects.equals(command, "")) {
+                                    if (command.startsWith("<console>")) {
+                                        String finalCommandConsole = FileConfigBungee.getConfig(data).getString("dispatch-command");
+                                        ProxyServer.getInstance().getScheduler().runAsync(FWToolBungee.getInstance(), () ->
+                                                ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), finalCommandConsole.replaceFirst("<console>", "")));
+                                    } else if (command.startsWith("<player")) {
+                                        for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
+                                            String commandCheck = command.replaceFirst("<player:", "").split(">")[0];
+                                            if (player.getName().equalsIgnoreCase(commandCheck)) {
+                                                String finalCommandPlayer = FileConfigBungee.getConfig(data).getString("dispatch-command");
+                                                ProxyServer.getInstance().getScheduler().runAsync(FWToolBungee.getInstance(), () ->
+                                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getPlayer(player.getName()), finalCommandPlayer.replaceFirst("<player:" + player.getName() + ">", "")));
+                                            } else {
+                                                FWToolBungee.log("&f指定的玩家不存在!");
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             LAST_MOD = lastModified;
                         }
