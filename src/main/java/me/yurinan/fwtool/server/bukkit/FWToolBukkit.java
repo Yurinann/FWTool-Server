@@ -34,8 +34,6 @@ public class FWToolBukkit extends JavaPlugin {
     public void onDisable() {
         log("&f插件开始卸载...");
         long closeTime = System.currentTimeMillis();
-        log("&f保存配置文件...");
-        FileConfigBukkit.saveConfig();
         log("&f取消任务...");
         Bukkit.getScheduler().cancelTasks(instance);
         log("&3插件卸载完成, 共耗时 &b" + (System.currentTimeMillis() - closeTime) + " &3ms.");
