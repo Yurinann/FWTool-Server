@@ -58,7 +58,7 @@ public class ConfigListenerBungee {
                             FWToolBungee.log("&3从工具箱成功接收指令, 正在执行...");
                             if (FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).contains("dispatch-command") && !FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command"), "")) {
                                 ProxyServer.getInstance().getScheduler().runAsync(FWToolBungee.getInstance(), () ->
-                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("command")));
+                                        ProxyServer.getInstance().getPluginManager().dispatchCommand(ProxyServer.getInstance().getConsole(), FileConfigBungee.getConfig(FileConfigBungee.terminalDataFile).getString("dispatch-command")));
                             }
                             LAST_MOD = lastModified;
                         }
