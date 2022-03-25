@@ -50,15 +50,15 @@ public class ConfigListenerBukkit {
                         fileNameSet.add(event.context() + "");
                     }
 
-                    long lastModified = FileConfigBukkit.configFile.lastModified();
+                    long lastModified = FileConfigBukkit.terminalDataFile.lastModified();
 
                     for (String ignored : fileNameSet) {
-                        if (lastModified != LAST_MOD && FileConfigBukkit.configFile.length() > 0) {
-                            FileConfigBukkit.reloadConfig();
+                        if (lastModified != LAST_MOD && FileConfigBukkit.terminalDataFile.length() > 0) {
+                            FileConfigBukkit.reloadConfig(FileConfigBukkit.terminalDataFile);
                             FWToolBukkit.log("&3从工具箱成功接收指令, 正在执行...");
-                            if (FileConfigBukkit.getConfig().contains("command") && !FileConfigBukkit.getConfig().getString("command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig().getString("command"), "")) {
+                            if (FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).contains("dispatch-command") && !FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command").isEmpty() && !Objects.equals(FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command"), "")) {
                                 Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
-                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig().getString("command")));
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), FileConfigBukkit.getConfig(FileConfigBukkit.terminalDataFile).getString("dispatch-command")));
                             }
                             LAST_MOD = lastModified;
                         }
