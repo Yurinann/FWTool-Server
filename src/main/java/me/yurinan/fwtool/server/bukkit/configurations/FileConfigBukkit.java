@@ -1,6 +1,7 @@
 package me.yurinan.fwtool.server.bukkit.configurations;
 
 import me.yurinan.fwtool.server.bukkit.FWToolBukkit;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -36,15 +37,14 @@ public class FileConfigBukkit {
             }
 
             FWToolBukkit.log("&3数据写入中...");
-            int port = FWToolBukkit.instance.getServer().getPort();
+            int port = Bukkit.getPort();
             if (!getConfig(terminalDataFile).contains("port")) {
                 getConfig(terminalDataFile).set("port", port);
             } else {
-                if (!(getConfig(terminalDataFile).getInt("port") == port)) {
+                if (getConfig(terminalDataFile).getInt("port") != port) {
                     getConfig(terminalDataFile).set("port", port);
                 }
             }
-
             saveConfig(terminalDataFile);
         }
     }
