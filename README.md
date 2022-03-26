@@ -22,12 +22,10 @@
 
 ### 🧵 使用统计
 
-#### Bukkit
+***Bukkit***
 [![bStats-bukkit](https://bstats.org/signatures/bukkit/FWTool-Server.svg)](https://bstats.org/plugin/bukkit/FWTool-Server/14735)
 
----
-
-#### Bungee
+***Bungee***
 
 [![bStats-bungee](https://bstats.org/signatures/bungeecord/FWTool-Server.svg)](https://bstats.org/plugin/bungee/FWTool-Server/14736)
 
@@ -36,3 +34,5 @@
 ### 🎓开源协议
 
 本项目源码使用 [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0) 开源协议。
+
+---
