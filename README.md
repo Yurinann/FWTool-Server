@@ -8,13 +8,13 @@
 
 ### 🖊介绍
 
-一个 Bukkit / Bungee 插件，主要为 FWTools 可视化服务器工具箱 提供交互功能。
+一个 Bukkit / Bungee 插件，主要为 [FWTools 可视化服务器工具箱](https://www.mcbbs.net/thread-1317628-1-1.html) 提供交互功能。
 
 ---
 
 ### ✨功能
 
-- 为 FWTools 可视化服务器工具箱 提供交互功能
+- 为 [FWTools 可视化服务器工具箱](https://www.mcbbs.net/thread-1317628-1-1.html) 提供交互功能
   - 一键命令执行
   - 服务器端口获取
 
