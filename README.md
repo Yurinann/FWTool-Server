@@ -6,8 +6,11 @@
 
 ---
 
-### 🖊 介绍
+### 🖊介绍
+
 一个 Bukkit / Bungee 插件，主要为 FWTools 可视化服务器工具箱 提供交互功能。
+
+
 
 ### ✨功能
 
@@ -15,14 +18,20 @@
   - 一键命令执行
   - 服务器端口获取
 
+
+
 ### 🧵 使用统计
 
 #### Bukkit
 [![bStats-bukkit](https://bstats.org/signatures/bukkit/FWTool-Server.svg)](https://bstats.org/plugin/bukkit/FWTool-Server/14735)
 
+---
+
 #### Bungee
 
 [![bStats-bungee](https://bstats.org/signatures/bungeecord/FWTool-Server.svg)](https://bstats.org/plugin/bungee/FWTool-Server/14736)
+
+
 
 ### 🎓开源协议
 
