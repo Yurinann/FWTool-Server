@@ -48,6 +48,7 @@ public class FileConfigBukkit {
         }
         saveConfig(terminalDataFile);
 
+        int port = Bukkit.getPort();
         if (!serverInfoFile.exists()) {
             FWToolBukkit.log("&8" + serverInfoFile.getName() + " 文件不存在, 创建中...");
             try {
@@ -57,11 +58,9 @@ public class FileConfigBukkit {
             }
 
             FWToolBukkit.log("&3数据写入中...");
-            int port = Bukkit.getPort();
             getConfig(serverInfoFile).set("port", port);
         } else {
             FWToolBukkit.log("&3数据写入中...");
-            int port = Bukkit.getPort();
             if (getConfig(serverInfoFile).getInt("port") != port) {
                 getConfig(serverInfoFile).set("port", port);
             }

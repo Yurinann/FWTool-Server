@@ -48,6 +48,7 @@ public class FileConfigBungee {
             saveConfig(getConfig(terminalDataFile), terminalDataFile);
         }
 
+        int port = ((ListenerInfo) FWToolBungee.getInstance().getProxy().getConfig().getListeners().toArray()[0]).getHost().getPort();
         if (!serverInfoFile.exists()) {
             FWToolBungee.log("&8" + serverInfoFile.getName() + " 不存在, 创建中...");
             try {
@@ -58,12 +59,9 @@ public class FileConfigBungee {
             }
 
             FWToolBungee.log("&3数据写入中...");
-            int port = ((ListenerInfo) FWToolBungee.getInstance().getProxy().getConfig().getListeners().toArray()[0]).getHost().getPort();
             getConfig(serverInfoFile).set("port", port);
-            saveConfig(getConfig(serverInfoFile), serverInfoFile);
         } else {
             FWToolBungee.log("&3数据写入中...");
-            int port = ((ListenerInfo) FWToolBungee.getInstance().getProxy().getConfig().getListeners().toArray()[0]).getHost().getPort();
             if (!getConfig(serverInfoFile).contains("port")) {
                 getConfig(serverInfoFile).set("port", port);
             } else {
@@ -71,8 +69,8 @@ public class FileConfigBungee {
                     getConfig(serverInfoFile).set("port", port);
                 }
             }
-            saveConfig(getConfig(serverInfoFile), serverInfoFile);
         }
+        saveConfig(getConfig(serverInfoFile), serverInfoFile);
     }
 
 
