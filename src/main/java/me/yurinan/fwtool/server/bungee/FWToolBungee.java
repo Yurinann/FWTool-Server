@@ -15,12 +15,11 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public class FWToolBungee extends Plugin {
 
-    public static FWToolBungee getInstance() {
-        return ((FWToolBungee) ProxyServer.getInstance().getPluginManager().getPlugin("FWTool-Server"));
-    }
+    private static FWToolBungee instance;
 
     @Override
     public void onEnable() {
+        instance = this;
         log("&f插件开始加载...");
         FWToolServer.bcMode = true;
         long startTime = System.currentTimeMillis();
@@ -33,6 +32,10 @@ public class FWToolBungee extends Plugin {
         int pluginId = 14736;
         Metrics metrics = new Metrics(this, pluginId);
         log("&3插件加载完成, 共耗时 &b" + (System.currentTimeMillis() - startTime) + " &3ms.");
+    }
+
+    public static FWToolBungee getInstance() {
+        return instance;
     }
 
     @Override

@@ -79,7 +79,7 @@ public class FileConfigBukkit {
     public static void reloadConfig(File file) {
         config = YamlConfiguration.loadConfiguration(file);
 
-        final InputStream defConfigStream = FWToolBukkit.instance.getResource(file.getName());
+        final InputStream defConfigStream = FWToolBukkit.getInstance().getResource(file.getName());
 
         if (defConfigStream == null) {
             return;
@@ -101,7 +101,7 @@ public class FileConfigBukkit {
     }
 
     public static File getDataFolder() {
-        return FWToolBukkit.instance.getDataFolder();
+        return FWToolBukkit.getInstance().getDataFolder();
     }
 
 }

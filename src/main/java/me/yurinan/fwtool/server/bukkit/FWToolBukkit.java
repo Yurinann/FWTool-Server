@@ -15,7 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FWToolBukkit extends JavaPlugin {
 
-    public static FWToolBukkit instance;
+    private static FWToolBukkit instance;
 
     @Override
     public void onEnable() {
@@ -41,6 +41,10 @@ public class FWToolBukkit extends JavaPlugin {
         log("&f取消任务...");
         Bukkit.getScheduler().cancelTasks(instance);
         log("&3插件卸载完成, 共耗时 &b" + (System.currentTimeMillis() - closeTime) + " &3ms.");
+    }
+
+    public static FWToolBukkit getInstance() {
+        return instance;
     }
 
     public static void log(String message) {

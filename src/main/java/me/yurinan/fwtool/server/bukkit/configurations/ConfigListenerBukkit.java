@@ -64,14 +64,14 @@ public class ConfigListenerBukkit {
                                 if (!command.isEmpty() && !Objects.equals(command, "")) {
                                     if (command.startsWith("<console>")) {
                                         String finalCommandConsole = FileConfigBukkit.getConfig(data).getString("dispatch-command");
-                                        Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
+                                        Bukkit.getScheduler().runTask(FWToolBukkit.getInstance(), () ->
                                                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalCommandConsole.replaceFirst("<console>", "")));
                                     } else if (command.startsWith("<player")) {
                                         for (Player player : Bukkit.getOnlinePlayers()) {
                                             String commandCheck = command.replaceFirst("<player:", "").split(">")[0];
                                             if (player.getName().equalsIgnoreCase(commandCheck)) {
                                                 String finalCommandPlayer = FileConfigBukkit.getConfig(data).getString("dispatch-command");
-                                                Bukkit.getScheduler().runTask(FWToolBukkit.instance, () ->
+                                                Bukkit.getScheduler().runTask(FWToolBukkit.getInstance(), () ->
                                                         Bukkit.dispatchCommand(Bukkit.getPlayer(player.getName()), finalCommandPlayer.replaceFirst("<player:" + player.getName() + ">", "")));
                                             } else {
                                                 FWToolBukkit.log("&f指定的玩家不存在!");
