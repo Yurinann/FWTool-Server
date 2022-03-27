@@ -22,12 +22,14 @@ public class FileConfigBukkit {
     private static FileConfiguration config = null;
 
     public static final File terminalDataFile = new File(getDataFolder() + "/terminal-data.yml");
+    public static final File serverInfoFile = new File(getDataFolder() + "/server-info.yml");
 
     public static void initConfig() {
         if (!getDataFolder().exists()) {
             FWToolBukkit.log("&8插件数据文件夹不存在, 创建中...");
             getDataFolder().mkdir();
         }
+
         if (!terminalDataFile.exists()) {
             FWToolBukkit.log("&8" + terminalDataFile.getName() + " 文件不存在, 创建中...");
             try {
@@ -37,16 +39,34 @@ public class FileConfigBukkit {
             }
 
             FWToolBukkit.log("&3数据写入中...");
-            int port = Bukkit.getPort();
-            if (!getConfig(terminalDataFile).contains("port")) {
-                getConfig(terminalDataFile).set("port", port);
-            } else {
-                if (getConfig(terminalDataFile).getInt("port") != port) {
-                    getConfig(terminalDataFile).set("port", port);
-                }
+            getConfig(terminalDataFile).set("dispatch-command", "");
+        } else {
+            FWToolBukkit.log("&3数据写入中...");
+            if (!getConfig(terminalDataFile).contains("dispatch-command")) {
+                getConfig(terminalDataFile).set("dispatch-command", "");
             }
-            saveConfig(terminalDataFile);
         }
+        saveConfig(terminalDataFile);
+
+        if (!serverInfoFile.exists()) {
+            FWToolBukkit.log("&8" + serverInfoFile.getName() + " 文件不存在, 创建中...");
+            try {
+                serverInfoFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FWToolBukkit.log("&3数据写入中...");
+            int port = Bukkit.getPort();
+            getConfig(serverInfoFile).set("port", port);
+        } else {
+            FWToolBukkit.log("&3数据写入中...");
+            int port = Bukkit.getPort();
+            if (getConfig(serverInfoFile).getInt("port") != port) {
+                getConfig(serverInfoFile).set("port", port);
+            }
+        }
+        saveConfig(serverInfoFile);
     }
 
     @NotNull
